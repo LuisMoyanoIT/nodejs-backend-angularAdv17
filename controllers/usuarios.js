@@ -1,7 +1,8 @@
 const { response } = require('express');
-const Usuario = require('../models/usuario');
 const bcryptjs = require('bcryptjs');
 
+const Usuario = require('../models/usuario');
+const { generateJWT } = require('../helpers/jwt');
 
 
 const getUsuarios = async (request, response)=>{
@@ -44,10 +45,14 @@ const createUsuario = async (req, res = response)=>{
 
         await usuario.save();
 
+        //generar token
+        const token = await generateJWT(usuario.id);
+
         res.json(
             {
                 ok: true,
-                usuario: usuario
+                usuario: usuario,
+                token: token
             }
         );
 
@@ -57,7 +62,7 @@ const createUsuario = async (req, res = response)=>{
         res.status(500).json({
             ok: false,
             message: 'Fatal Internal Error...'
-        })
+        });
     }
 }
 
