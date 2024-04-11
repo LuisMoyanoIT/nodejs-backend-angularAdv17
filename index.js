@@ -11,21 +11,18 @@ const app = express();
 //Cors config
 app.use( cors() );
 
+//Lectura y parseo del body
+app.use( express.json() );
+
 //database
 dbConnection();
 
 
 //rutas
-app.get( '/', (request, response)=>{
 
-    response.json(
-        {
-            ok: true,
-            message: 'Hola mundo'
-        }
-    );
+app.use('/api/usuarios', require('./routes/usuarios'));
 
-});
+
 
 
 
