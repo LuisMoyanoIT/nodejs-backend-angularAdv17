@@ -13,8 +13,6 @@ const router = Router();
 
 router.get( '/',validarJWT, getUsuarios);
 
-
-
 router.post( '/', 
     [
         check('name', 'name is mandatory').not().isEmpty(),
@@ -24,8 +22,7 @@ router.post( '/',
     ] ,
     createUsuario);
 
-
-    router.put( '/:id', 
+router.put( '/:id', 
     [
         validarJWT,
         check('name', 'name is mandatory').not().isEmpty(),
@@ -35,18 +32,8 @@ router.post( '/',
     ] ,
     editUsuario);
 
-    router.delete( '/:id',
+router.delete( '/:id',
     validarJWT,
     deleteUsuario);
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
