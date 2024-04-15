@@ -63,22 +63,86 @@ createMedicos = async (req, res = response ) => {
 
 editMedicos = async (req, res = response ) => {
 
-    res.json(
+    const medicoId = req.params.id;
+
+    const {name, usuarioId, hospitalId} = req.body;
+
+    try {
+
+        const medicoBD = await Medico.findById(medicoId);
+        if(!medicoBD)
+        {
+            return res.status(400).json({
+                ok: false,
+                message: "Medico does not exist"
+            })
+        }
+
+        if(medicoBD.name !== name)
+        {
+            const nameAlreadyBeenTaken = await Medico.findOne({name});
+            if(nameAlreadyBeenTaken)
+            {
+                return res.status(404).json({ok: false, message: "name has been taken for another medic"});
+            }
+        }
+
+        medicoBD.name = name;
+        medicoBD.usuario = usuarioId;
+        medicoBD.hospital = hospitalId;
+
+        const doctorUpdated = await Medico.findByIdAndUpdate(medicoId,medicoBD, {new: true} );
+
+        res.json(
         {
             ok: true,
-            message: "createMedicos"
+            message: "editHospitales",
+            medico: doctorUpdated
         });
+   } catch (error) {
+
+    console.error(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Fatal Internal Error...'
+        });
+       
+   }
 
 };
 
 
 deleteMedicos = async (req, res = response ) => {
 
-    res.json(
+    const medicoId = req.params.id;
+
+    try {
+
+        const medicoBD = await Medico.findById(medicoId);
+        if(!medicoBD)
+        {
+            return res.status(400).json({
+                ok: false,
+                message: "medico does not exist"
+            })
+        }
+
+        await Medico.findByIdAndDelete(medicoId);
+
+        res.json(
         {
             ok: true,
-            message: "Medicos"
+            message: "deleteMedicos",
         });
+   } catch (error) {
+
+    console.error(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Fatal Internal Error...'
+        });
+       
+   }
 
 };
 
