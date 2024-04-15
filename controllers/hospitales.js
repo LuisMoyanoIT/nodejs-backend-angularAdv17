@@ -67,22 +67,85 @@ createHospitales = async (req, res = response ) => {
 
 editHospitales = async (req, res = response ) => {
 
-    res.json(
+    const uid = req.params.id;
+
+    const {name, usuarioId} = req.body;
+
+    try {
+
+        const hospitalBD = await Hospital.findById(uid);
+        if(!hospitalBD)
+        {
+            return res.status(400).json({
+                ok: false,
+                message: "Hospital does not exist"
+            })
+        }
+
+        if(hospitalBD.name !== name)
+        {
+            const nameAlreadyBeenTaken = await Hospital.findOne({name});
+            if(nameAlreadyBeenTaken)
+            {
+                return res.status(404).json({ok: false, message: "name has been taken for another Hospital"});
+            }
+        }
+
+        hospitalBD.name = name;
+        hospitalBD.usuario = usuarioId;
+
+        const doctorUpdated = await Hospital.findByIdAndUpdate(uid,hospitalBD, {new: true} );
+
+        res.json(
         {
             ok: true,
-            message: "createHospitales"
+            message: "createHospitales",
+            hospital: doctorUpdated
         });
+   } catch (error) {
+
+    console.error(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Fatal Internal Error...'
+        });
+       
+   }
 
 };
 
 
 deleteHospitales = async (req, res = response ) => {
 
-    res.json(
+    const hospitalId = req.params.id;
+
+    try {
+
+        const hospitalBD = await Hospital.findById(hospitalId);
+        if(!hospitalBD)
+        {
+            return res.status(400).json({
+                ok: false,
+                message: "Hospital does not exist"
+            })
+        }
+
+        await Hospital.findByIdAndDelete(hospitalId);
+
+        res.json(
         {
             ok: true,
-            message: "jospitals"
+            message: "deleteHospitales",
         });
+   } catch (error) {
+
+    console.error(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Fatal Internal Error...'
+        });
+       
+   }
 
 };
 
