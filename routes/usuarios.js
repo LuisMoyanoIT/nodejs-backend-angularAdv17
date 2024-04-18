@@ -26,7 +26,6 @@ router.put( '/:id',
     [
         validarJWT,
         check('name', 'name is mandatory').not().isEmpty(),
-        check('password', 'password is mandatory').not().isEmpty(),
         check('email', 'email is mandatory').isEmail(),
         validarCampos
     ] ,

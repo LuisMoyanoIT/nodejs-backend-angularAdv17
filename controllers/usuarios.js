@@ -88,7 +88,7 @@ const editUsuario = async (req, res = response, next) => {
             return res.status(404).json({ok: false, message: "User does not exist"});
         }
         //Actualizaciones
-        const {password, google, email, ...campos} = req.body;
+        const {google, email, ...campos} = req.body;
 
         if(usuarioDB.email !== email)
         {
@@ -104,7 +104,7 @@ const editUsuario = async (req, res = response, next) => {
         
         res.json(
             {
-                ok: false,
+                ok: true,
                 usuario: usuarioActualizado
             }
         );

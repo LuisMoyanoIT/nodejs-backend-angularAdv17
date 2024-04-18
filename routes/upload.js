@@ -21,10 +21,7 @@ router.put( '/:coleccion/:id',
     ] ,
     uploadImageByCollecion);
 
-router.get( '/:coleccion/:image', 
-[
-    validarJWT
-] ,
+router.get( '/:coleccion/:image',
 returnImage);
 
 

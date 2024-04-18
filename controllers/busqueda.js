@@ -52,7 +52,7 @@ getDocumentosByColeccion = async (req, res = response ) => {
         switch (tabla) {
 
             case 'usuarios':
-                resultados = await Usuario.find({name: regex}, 'name email role google');
+                resultados = await Usuario.find({name: regex}, 'name email role google image');
                 break;
             case 'medicos':
                 resultados = await Medico.find({name: regex}, 'name usuario id hospital')
