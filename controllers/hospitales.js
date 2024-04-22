@@ -92,7 +92,11 @@ editHospitales = async (req, res = response ) => {
         }
 
         hospitalBD.name = name;
-        hospitalBD.usuario = usuarioId;
+        if(usuarioId)
+        {
+            hospitalBD.usuario = usuarioId;
+        }
+        
 
         const doctorUpdated = await Hospital.findByIdAndUpdate(uid,hospitalBD, {new: true} );
 

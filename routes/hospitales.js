@@ -25,7 +25,6 @@ router.put( '/:id',
     [
         validarJWT,
         check('name', 'The name of the hospital is required').not().isEmpty(),
-        check('usuario', 'UsuarioId is required').not().isEmpty(),
         validarCampos
     ] ,
     editHospitales);

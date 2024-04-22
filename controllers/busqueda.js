@@ -55,7 +55,7 @@ getDocumentosByColeccion = async (req, res = response ) => {
                 resultados = await Usuario.find({name: regex}, 'name email role google image');
                 break;
             case 'medicos':
-                resultados = await Medico.find({name: regex}, 'name usuario id hospital')
+                resultados = await Medico.find({name: regex}, 'name usuario id hospital image')
                                                 .populate('usuario', 'name email image')
                                                 .populate('hospital', 'name image')
                 break;

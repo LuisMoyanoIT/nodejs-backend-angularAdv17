@@ -9,12 +9,12 @@ const MedicoSchema = Schema({
         unique: true
     },
     image:{
-        type: String
+        type: String,
+        default: 'MEDIC_IMAGE.png'
     },
     usuario:{
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
-        required: true,
     },
     hospital:{
         type: Schema.Types.ObjectId,

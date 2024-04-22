@@ -146,12 +146,39 @@ deleteMedicos = async (req, res = response ) => {
 
 };
 
+getMedicoById = async (req, res = response ) => {
+
+    try {
+        const medicoId = req.params.id;
+
+        const medico = await Medico.findById(medicoId)
+                                   .populate('hospital', 'name image')
+                                   .populate('usuario', 'name image')
+        res.json(
+        {
+            ok: true,
+            message: "getMedicoById",
+            medico: medico
+        });
+    } catch (error) {
+
+        console.error(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Fatal Internal Error...'
+        });
+        
+    }
+
+};
+
 
 
 module.exports = {
     getMedicos,
     createMedicos,
     editMedicos,
-    deleteMedicos
+    deleteMedicos,
+    getMedicoById
 
 }
